@@ -17,6 +17,7 @@ async def on_ready():
 #Greeting someone when the user says !hello,!yo and !wazz poppin/ Movies Bot integration.
 @client.event
 async def on_message(message):
+	#Greetings.
 	if message.content.upper().startswith('!HELLO'):
 		userID = message.author.id 
 		await client.send_message(message.channel,"Hello <@%s>!" % (userID))
@@ -26,6 +27,7 @@ async def on_message(message):
 	if message.content.upper().startswith('!WAZZ POPPIN?'):
 		userID = message.author.id 
 		await client.send_message(message.channel,"Not much, <@%s>!" % (userID))
+	#Movies.
 	if message.content.upper().startswith('MOVIE!'):
 		userID = message.author.id 
 		args = message.content.split(" ")
