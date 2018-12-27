@@ -80,7 +80,7 @@ async def send_news():
 			s.append(th12['articles'][0]['url'])
 		if (len(th22['articles'])!=0):
 			s.append(th22['articles'][0]['url'])
-		if (len(th32['articles'])!=0)
+		if (len(th32['articles'])!=0):
 			s.append(th32['articles'][0]['url'])
 		if (len(th42['articles'])!=0):
 			s.append(th42['articles'][0]['url'])
