@@ -87,6 +87,14 @@ async def on_member_join(member):
 	msg='Welcome to Sparks and Glory {}! Please look at {} before proceeding. Have fun!'.format(userid,channel_rules.mention)
 	await client.send_message(channel,msg)
 
+#Bidding goodbye when a member leaves.
+@client.event
+async def on_member_remove(member):
+	userid=member.mention
+	channel=client.get_channel(os.getenv('INTRO_CHANNEL_ID'))
+	msg='Farewell {}! Best of luck for the future!'.format(userid)
+	await client.send_message(channel,msg)
+
 #Tech News.
 async def send_news():
 	await client.wait_until_ready()
