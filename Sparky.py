@@ -20,15 +20,16 @@ async def on_ready():
 @client.event
 async def on_message(message):
 	#Greetings.
-	if message.content.upper().startswith('!HELLO'):
-		userID = message.author.id 
+	if message.content.upper().startswith('HELLO!'):
+		userID = message.author.id
 		await client.send_message(message.channel,"Hello <@%s>!" % (userID))
-	if message.content.upper().startswith('!YO'):
+	if message.content.upper().startswith('YO!'):
 		userID = message.author.id 
 		await client.send_message(message.channel,"Yo to you too, <@%s>!" % (userID))
-	if message.content.upper().startswith('!WAZZ POPPIN?'):
+	if message.content.upper().startswith('WAZZ POPPIN!'):
 		userID = message.author.id 
 		await client.send_message(message.channel,"Not much, <@%s>!" % (userID))
+
 	#Movies,TV Series and Video Games plot summaries.
 	if message.content.upper().startswith('MOVIE!'):
 		userID = message.author.id 
@@ -39,15 +40,50 @@ async def on_message(message):
 		movieid=ia.get_imdbID(movie1)
 		movieinfo=ia.get_movie(movieid)
 		plot=movieinfo['plot'][0]
-		await client.send_message(message.channel,plot)
+		embed=discord.Embed(title='PLOT SUMMARY',description='',colour=discord.Colour.teal())
+		embed.add_field(name=moviename,value=plot,inline=False)
+		await client.send_message(message.channel,embed=embed)
+	
+	#Server Info
+		#Roles information
+	if message.content.upper().startswith('ROLES!'):
+		server=client.get_server(os.getenv('SERVER_ID'))
+		roles_list=server.roles
+		for role in roles_list:
+			if not role.is_everyone:
+				embed=discord.Embed(title=role.name,description='',colour=role.colour)
+				await client.send_message(message.channel,embed=embed)
+		#Server information
+	if message.content.upper().startswith('INFO!'):
+		server=client.get_server(os.getenv('SERVER_ID'))
+		people_count=server.member_count
+		time_of_creation=server.created_at
+		owner_name=server.owner.name
+		icon=server.icon_url
+		embed=discord.Embed(title=server.name,description='SERVER INFO',colour=discord.Colour.teal())
+		embed.set_image(url=icon)
+		embed.add_field(name='Member count:',value=people_count,inline=False)
+		embed.add_field(name='Time of Origin:',value=time_of_creation,inline=False)
+		embed.add_field(name='Owner:',value=owner_name,inline=False)
+		await client.send_message(message.channel,embed=embed)
+
+	#Bot Commands Help
+	if message.content.upper().startswith('HELP!'):
+		embed=discord.Embed(title='Sparky to your rescue!',description='COMMANDS [Note that the commands are case insensitive.] -->',colour=discord.Colour.teal())
+		embed.add_field(name='help!',value='Gives the list of commands.',inline=False)
+		embed.add_field(name='roles!',value='Gives all the roles present in the server.',inline=False)
+		embed.add_field(name='info!',value='Gives server info.',inline=False)
+		embed.add_field(name='movie! name of Movie / TV Series /  Video Game',value='Gives the plot summay of the Movie/ TV series / Vide Game',inline=False)
+		embed.add_field(name='hello! / yo! / wazz poppin!',value='Sparky says hi to you', inline=False)
+		await client.send_message(message.channel,embed=embed)
 
 
 #Introduction of a new user. Note that in asyncio the ids are strings.	
 @client.event
 async def on_member_join(member):
 	userid=member.mention
-	channel = client.get_channel('523991595494932491')
-	channel_rules=client.get_channel('519140177512366082')
+	channel = client.get_channel(os.getenv('INTRO_CHANNEL_ID'))
+	channel_rules=client.get_channel(os.getenv('RULES_CHANNEL_ID'))
 	msg='Welcome to Sparks and Glory {}! Please look at {} before proceeding. Have fun!'.format(userid,channel_rules.mention)
 	await client.send_message(channel,msg)
 
@@ -89,7 +125,7 @@ async def send_news():
 		headlines=list(set(s))
 		embed=discord.Embed(title='Tech News',description='The latest Tech News of the day.',colour=discord.Colour.teal())
 		embed.set_footer(text='Powered by NewsAPI')
-		technews = client.get_channel('523952165526568975')
+		technews = client.get_channel(os.getenv('TECHNEWS_CHANNEL_ID'))
 		if(len(headlines)!=0):
 			for i in range(1,len(headlines)+1):
 				news_number='News-{}'.format(i)
