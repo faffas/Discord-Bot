@@ -141,7 +141,7 @@ async def send_news():
 		else:
 			embed.add_field(name='Sorry!',value='No news available right now',inline=False)
 		await client.send_message(technews, embed=embed)
-		await asyncio.sleep(86400)
+		await asyncio.sleep(345600)
 
 client.loop.create_task(send_news())
 client.run(os.getenv('TOKEN'))
