@@ -73,7 +73,7 @@ async def on_message(message):
 		embed.add_field(name='help!',value='Gives the list of commands.',inline=False)
 		embed.add_field(name='roles!',value='Gives all the roles present in the server.',inline=False)
 		embed.add_field(name='info!',value='Gives server info.',inline=False)
-		embed.add_field(name='movie! name of Movie / TV Series /  Video Game',value='Gives the plot summay of the Movie/ TV series / Video Game.',inline=False)
+		embed.add_field(name='movie! name of Movie / TV Series /  Video Game',value='Gives the plot summary of the Movie/ TV series / Video Game.',inline=False)
 		embed.add_field(name='hello! / yo! / wazz poppin!',value='Sparky says hi to you!', inline=False)
 		await client.send_message(message.channel,embed=embed)
 
@@ -131,7 +131,7 @@ async def send_news():
 		if (len(th52['articles'])!=0):
 			s.append(th52['articles'][0]['url'])
 		headlines=list(set(s))
-		embed=discord.Embed(title='Tech News',description='The latest Tech News of the day.',colour=discord.Colour.teal())
+		embed=discord.Embed(title='Tech News',description='',colour=discord.Colour.teal())
 		embed.set_footer(text='Powered by NewsAPI')
 		technews = client.get_channel(os.getenv('TECHNEWS_CHANNEL_ID'))
 		if(len(headlines)!=0):
