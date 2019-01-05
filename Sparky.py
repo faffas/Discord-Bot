@@ -5,6 +5,7 @@ import asyncio
 import time
 import imdb
 import os
+import wikipedia as wk
 from newsapi import NewsApiClient
 
 newsapi = NewsApiClient(api_key=os.getenv('API_KEY'))
@@ -43,6 +44,15 @@ async def on_message(message):
 		embed=discord.Embed(title='PLOT SUMMARY',description='',colour=discord.Colour.teal())
 		embed.add_field(name=moviename,value=plot,inline=False)
 		await client.send_message(message.channel,embed=embed)
+		
+	#Wikipedia Search
+	if message.content.upper().startswith('WIKI!'):
+		args = message.content.split(" ")
+		item_search_title=" ".join(args[1:])
+		item_summary=wk.summary(item_search_title,sentences=4)
+		embed=discord.Embed(title='Wikipedia Summary',description='',colour=discord.Colour.teal())
+		embed.add_field(name=item_search_title.capitalize(),value=item_summary,inline=False)
+		await client.send_message(message.channel,embed=embed)
 	
 	#Server Info
 		#Roles information
@@ -73,6 +83,7 @@ async def on_message(message):
 		embed.add_field(name='help!',value='Gives the list of commands.',inline=False)
 		embed.add_field(name='roles!',value='Gives all the roles present in the server.',inline=False)
 		embed.add_field(name='info!',value='Gives server info.',inline=False)
+		embed.add_field(name='wiki!',value='Gives brief summary from Wikipedia of the queried item.',inline=False)
 		embed.add_field(name='movie! name of Movie / TV Series /  Video Game',value='Gives the plot summary of the Movie/ TV series / Video Game.',inline=False)
 		embed.add_field(name='hello! / yo! / wazz poppin!',value='Sparky says hi to you!', inline=False)
 		await client.send_message(message.channel,embed=embed)
