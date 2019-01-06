@@ -83,7 +83,7 @@ async def on_message(message):
 		embed.add_field(name='help!',value='Gives the list of commands.',inline=False)
 		embed.add_field(name='roles!',value='Gives all the roles present in the server.',inline=False)
 		embed.add_field(name='info!',value='Gives server info.',inline=False)
-		embed.add_field(name='wiki!',value='Gives brief summary from Wikipedia of the queried item.',inline=False)
+		embed.add_field(name='wiki! what you want to search',value='Gives brief summary from Wikipedia of the queried item.',inline=False)
 		embed.add_field(name='movie! name of Movie / TV Series /  Video Game',value='Gives the plot summary of the Movie/ TV series / Video Game.',inline=False)
 		embed.add_field(name='hello! / yo! / wazz poppin!',value='Sparky says hi to you!', inline=False)
 		await client.send_message(message.channel,embed=embed)
