@@ -115,12 +115,10 @@ async def send_news():
 		th2=newsapi.get_top_headlines(q='tech',sources='recode',language='en')
 		th3=newsapi.get_top_headlines(q='tech',sources='wired',language='en')
 		th4=newsapi.get_top_headlines(q='tech',sources='techradar',language='en')
-		th5=newsapi.get_top_headlines(q='tech',sources='business-insider',language='en')
 		th12=newsapi.get_top_headlines(q='technology',sources='engadget',language='en')
 		th22=newsapi.get_top_headlines(q='technology',sources='recode',language='en')
 		th32=newsapi.get_top_headlines(q='technology',sources='wired',language='en')
 		th42=newsapi.get_top_headlines(q='technology',sources='techradar',language='en')
-		th52=newsapi.get_top_headlines(q='technology',sources='business-insider',language='en')
 		s=[]
 		if (len(th1['articles'])!=0):
 			s.append(th1['articles'][0]['url'])
@@ -130,8 +128,6 @@ async def send_news():
 			s.append(th3['articles'][0]['url'])
 		if (len(th4['articles'])!=0):
 			s.append(th4['articles'][0]['url'])
-		if (len(th5['articles'])!=0):
-			s.append(th5['articles'][0]['url'])
 		if (len(th12['articles'])!=0):
 			s.append(th12['articles'][0]['url'])
 		if (len(th22['articles'])!=0):
@@ -140,8 +136,6 @@ async def send_news():
 			s.append(th32['articles'][0]['url'])
 		if (len(th42['articles'])!=0):
 			s.append(th42['articles'][0]['url'])
-		if (len(th52['articles'])!=0):
-			s.append(th52['articles'][0]['url'])
 		headlines=list(set(s))
 		embed=discord.Embed(title='Tech News',description='Stuff happening in the Tech World. ',colour=discord.Colour.teal())
 		embed.set_footer(text='Powered by NewsAPI')
