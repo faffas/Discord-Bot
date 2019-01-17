@@ -15,6 +15,7 @@ client = commands.Bot(command_prefix="!")
 
 @client.event
 async def on_ready():
+	await client.change_presence(game=discord.Game(name='with Iron Man.'))
 	print("Badum tss, I am ready!")
   
 #Greeting someone when the user says !hello,!yo and !wazz poppin/ Movies Bot integration.
@@ -58,7 +59,7 @@ async def on_message(message):
 		#Roles information
 	if message.content.upper().startswith('ROLES!'):
 		server=client.get_server(os.getenv('SERVER_ID'))
-		roles_list=server.roles
+		roles_list=server.role_hierarchy
 		for role in roles_list:
 			if not role.is_everyone:
 				embed=discord.Embed(title=role.name,description='',colour=role.colour)
