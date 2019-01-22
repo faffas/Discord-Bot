@@ -7,9 +7,11 @@ import imdb
 import os
 import random
 import wikipedia as wk
-from newsapi import NewsApiClient
+# from newsapi import NewsApiClient
 
-newsapi = NewsApiClient(api_key=os.getenv('API_KEY'))
+# newsapi = NewsApiClient(api_key=os.getenv('API_KEY'))
+# The tech news feature can be enabled by using an API. I am trying to create it using a RSS Feed. It will be updated soon.
+
 ia=imdb.IMDb()
 Client = discord.Client()
 client = commands.Bot(command_prefix="!")
@@ -167,47 +169,47 @@ async def on_member_remove(member):
 	msg='Farewell {}! Best of luck for the future!'.format(userid)
 	await client.send_message(channel,msg)
 
-#Tech News.
-async def send_news():
-	await client.wait_until_ready()
-	while not client.is_closed:
-		th1=newsapi.get_top_headlines(q='tech',sources='engadget',language='en')
-		th2=newsapi.get_top_headlines(q='tech',sources='recode',language='en')
-		th3=newsapi.get_top_headlines(q='tech',sources='wired',language='en')
-		th4=newsapi.get_top_headlines(q='tech',sources='techradar',language='en')
-		th12=newsapi.get_top_headlines(q='technology',sources='engadget',language='en')
-		th22=newsapi.get_top_headlines(q='technology',sources='recode',language='en')
-		th32=newsapi.get_top_headlines(q='technology',sources='wired',language='en')
-		th42=newsapi.get_top_headlines(q='technology',sources='techradar',language='en')
-		s=[]
-		if (len(th1['articles'])!=0):
-			s.append(th1['articles'][0]['url'])
-		if (len(th2['articles'])!=0):
-			s.append(th2['articles'][0]['url'])
-		if (len(th3['articles'])!=0):
-			s.append(th3['articles'][0]['url'])
-		if (len(th4['articles'])!=0):
-			s.append(th4['articles'][0]['url'])
-		if (len(th12['articles'])!=0):
-			s.append(th12['articles'][0]['url'])
-		if (len(th22['articles'])!=0):
-			s.append(th22['articles'][0]['url'])
-		if (len(th32['articles'])!=0):
-			s.append(th32['articles'][0]['url'])
-		if (len(th42['articles'])!=0):
-			s.append(th42['articles'][0]['url'])
-		headlines=list(set(s))
-		embed=discord.Embed(title='Tech News',description='Stuff happening in the Tech World. ',colour=discord.Colour.teal())
-		embed.set_footer(text='Powered by NewsAPI')
-		technews = client.get_channel(os.getenv('TECHNEWS_CHANNEL_ID'))
-		if(len(headlines)!=0):
-			for i in range(1,len(headlines)+1):
-				news_number='News-{}'.format(i)
-				embed.add_field(name=news_number,value=headlines[i-1],inline=False)
-		else:
-			embed.add_field(name='Sorry!',value='No news available right now',inline=False)
-		await client.send_message(technews, embed=embed)
-		await asyncio.sleep(345600)
+# #Tech News.
+# async def send_news():
+# 	await client.wait_until_ready()
+# 	while not client.is_closed:
+# 		th1=newsapi.get_top_headlines(q='tech',sources='engadget',language='en')
+# 		th2=newsapi.get_top_headlines(q='tech',sources='recode',language='en')
+# 		th3=newsapi.get_top_headlines(q='tech',sources='wired',language='en')
+# 		th4=newsapi.get_top_headlines(q='tech',sources='techradar',language='en')
+# 		th12=newsapi.get_top_headlines(q='technology',sources='engadget',language='en')
+# 		th22=newsapi.get_top_headlines(q='technology',sources='recode',language='en')
+# 		th32=newsapi.get_top_headlines(q='technology',sources='wired',language='en')
+# 		th42=newsapi.get_top_headlines(q='technology',sources='techradar',language='en')
+# 		s=[]
+# 		if (len(th1['articles'])!=0):
+# 			s.append(th1['articles'][0]['url'])
+# 		if (len(th2['articles'])!=0):
+# 			s.append(th2['articles'][0]['url'])
+# 		if (len(th3['articles'])!=0):
+# 			s.append(th3['articles'][0]['url'])
+# 		if (len(th4['articles'])!=0):
+# 			s.append(th4['articles'][0]['url'])
+# 		if (len(th12['articles'])!=0):
+# 			s.append(th12['articles'][0]['url'])
+# 		if (len(th22['articles'])!=0):
+# 			s.append(th22['articles'][0]['url'])
+# 		if (len(th32['articles'])!=0):
+# 			s.append(th32['articles'][0]['url'])
+# 		if (len(th42['articles'])!=0):
+# 			s.append(th42['articles'][0]['url'])
+# 		headlines=list(set(s))
+# 		embed=discord.Embed(title='Tech News',description='Stuff happening in the Tech World. ',colour=discord.Colour.teal())
+# 		embed.set_footer(text='Powered by NewsAPI')
+# 		technews = client.get_channel(os.getenv('TECHNEWS_CHANNEL_ID'))
+# 		if(len(headlines)!=0):
+# 			for i in range(1,len(headlines)+1):
+# 				news_number='News-{}'.format(i)
+# 				embed.add_field(name=news_number,value=headlines[i-1],inline=False)
+# 		else:
+# 			embed.add_field(name='Sorry!',value='No news available right now',inline=False)
+# 		await client.send_message(technews, embed=embed)
+# 		await asyncio.sleep(345600)
 
-client.loop.create_task(send_news())
+# client.loop.create_task(send_news())
 client.run(os.getenv('TOKEN'))
