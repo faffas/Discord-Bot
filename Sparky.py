@@ -21,10 +21,12 @@ async def on_ready():
 	await client.change_presence(game=discord.Game(name='with Iron Man.'))
 	print("Badum tss, I am ready!")
   
-#Greeting someone when the user says !hello,!yo and !wazz poppin/ Movies Bot integration.
+#Commands.
 @client.event
 async def on_message(message):
-	#Greetings.
+	
+	#Greetings and Cookies and Random Stuff
+	
 	if message.content.upper().startswith('HELLO!'):
 		userID = message.author.id
 		await client.send_message(message.channel,"Hello <@%s>!" % (userID))
@@ -34,8 +36,15 @@ async def on_message(message):
 	if message.content.upper().startswith('WAZZ POPPIN!'):
 		userID = message.author.id 
 		await client.send_message(message.channel,"Not much, <@%s>!" % (userID))
-
-	#Movies,TV Series and Video Games plot summaries.
+	if message.content.upper().startswith('COOKIE!'):
+		cookies=['choco chip','vanilla','caramel','butterscotch','almond','chunky coconut','marmalade','choco lava','butter']
+		index_cookie=random.randint(0,len(cookies)-1)
+		cookie_send=cookies[index_cookie]
+		cookie_message='{} , {} gave you a nice {} cookie :cookie: !'.format(message.content.split(' ')[1],message.author.mention,cookie_send)
+		await client.send_message(message.channel, cookie_message)
+		
+	#Movies,TV Series and Video Games plot summaries
+	
 	if message.content.upper().startswith('MOVIE!'):
 		userID = message.author.id 
 		args = message.content.split(" ")
@@ -50,6 +59,7 @@ async def on_message(message):
 		await client.send_message(message.channel,embed=embed)
 		
 	#Wikipedia Search
+	
 	if message.content.upper().startswith('WIKI!'):
 		args = message.content.split(" ")
 		item_search_title=" ".join(args[1:])
@@ -59,7 +69,8 @@ async def on_message(message):
 		await client.send_message(message.channel,embed=embed)
 	
 	#Server Info
-		#Roles information
+	
+	# 1.) Roles information
 	if message.content.upper().startswith('ROLES!'):
 		server=client.get_server(os.getenv('SERVER_ID'))
 		roles_list=server.role_hierarchy
@@ -67,7 +78,7 @@ async def on_message(message):
 			if not role.is_everyone:
 				embed=discord.Embed(title=role.name,description='',colour=role.colour)
 				await client.send_message(message.channel,embed=embed)
-		#Server information
+	# 2.) Server information
 	if message.content.upper().startswith('INFO!'):
 		server=client.get_server(os.getenv('SERVER_ID'))
 		people_count=server.member_count
@@ -80,20 +91,72 @@ async def on_message(message):
 		embed.add_field(name='Time of Origin:',value=time_of_creation,inline=False)
 		embed.add_field(name='Owner:',value=owner_name,inline=False)
 		await client.send_message(message.channel,embed=embed)
+	
+	#Moderation Commands
+
+	# 1.) Kick a user
+	if message.content.upper().startswith("KICK!"):
+		server=client.get_server(os.getenv('SERVER_ID'))
+		flag=False
+		if message.author.server_permissions.kick_members == True and message.author.server_permissions.ban_members ==  True:
+			flag=True
+		if flag == True:
+			for mem_ber in server.members:
+				if mem_ber.mentioned_in(message) ==  True:
+					await client.kick(mem_ber)
+					embed=discord.Embed(title='Kicked',description="{} has been kicked from the server".format(mem_ber.mention),colour=discord.Colour.red())
+					await client.send_message(message.channel,embed=embed)
+					break
+
+		else:
+			embed=discord.Embed(title='Warning',description='{} You are not allowed to use this command!'.format(message.author.mention),colour=discord.Colour.red())
+			await client.send_message(message.channel,embed=embed)
+	# 2.) Ban a user
+	if message.content.upper().startswith("BAN!"):
+		server=client.get_server(os.getenv('SERVER_ID'))
+		flag=False
+		if message.author.server_permissions.kick_members == True and message.author.server_permissions.ban_members ==  True:
+			flag=True
+		if flag == True:
+			for mem_ber in server.members:
+				if mem_ber.mentioned_in(message) ==  True:
+					await client.ban(mem_ber,0)
+					embed=discord.Embed(title='Banned',description="{} has been banned from the server".format(mem_ber.mention),colour=discord.Colour.red())
+					await client.send_message(message.channel,embed=embed)
+					break
+
+		else:
+			embed=discord.Embed(title='Warning',description='{} You are not allowed to use this command!'.format(message.author.mention),colour=discord.Colour.red())
+			await client.send_message(message.channel,embed=embed)
+
 
 	#Bot Commands Help
+	
 	if message.content.upper().startswith('HELP!'):
-		embed=discord.Embed(title='Sparky to your rescue!',description='COMMANDS [Note that the commands are case insensitive.] -->',colour=discord.Colour.teal())
+		embed=discord.Embed(title='SPARKY TO YOUR RESCUE!',description='COMMANDS [Note that the commands are case insensitive.] -->',colour=discord.Colour.teal())
 		embed.add_field(name='help!',value='Gives the list of commands.',inline=False)
 		embed.add_field(name='roles!',value='Gives all the roles present in the server.',inline=False)
 		embed.add_field(name='info!',value='Gives server info.',inline=False)
+		embed.add_field(name='wiki!',value='Gives brief summary from Wikipedia of the queried item',inline=False)
 		embed.add_field(name='coin! type heads or tails',value='Make Sparky toss a coin and see if you win',inline=False)
 		embed.add_field(name='slot!',value='Test your luck on Sparky\'s slot machine!',inline=False)
-		embed.add_field(name='wiki! what you want to search',value='Gives brief summary from Wikipedia of the queried item.',inline=False)
-		embed.add_field(name='movie! name of Movie / TV Series /  Video Game',value='Gives the plot summary of the Movie/ TV series / Video Game.',inline=False)
-		embed.add_field(name='hello! / yo! / wazz poppin!',value='Sparky says hi to you!', inline=False)
+		embed.add_field(name='movie! name of Movie / TV Series /  Video Game',value='Gives the plot summary of the Movie/ TV series / Video Game',inline=False)
+		embed.add_field(name='hello! / yo! / wazz poppin!',value='Sparky says hi to you', inline=False)
+		embed.add_field(name='cookie! mention user',value='Give someone a delicious cookie', inline=False)
 		await client.send_message(message.channel,embed=embed)
-	
+		
+	#MOD Commands Help
+
+	if message.content.upper().startswith('MODHELP!'):
+		if message.author.server_permissions.kick_members == True and message.author.server_permissions.ban_members ==  True:
+			embed=discord.Embed(title='MOD COMMANDS',description='Can be used only by Admins.',colour=discord.Colour.red())
+			embed.add_field(name='kick! user',value='Kicks the mentioned user from the server.', inline=False)
+			embed.add_field(name='ban! user',value='Bans the mentioned user from the server.', inline=False)
+			await client.send_message(message.channel,embed=embed)
+		else:
+			embed=discord.Embed(title='Warning',description='{} You are not allowed to use this command!'.format(message.author.mention),colour=discord.Colour.red())
+			await client.send_message(message.channel,embed=embed)
+			
 	#Coin Flip Game
 	if message.content.upper().startswith('COIN!'):
 		args=message.content.split(" ")
