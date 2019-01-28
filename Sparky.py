@@ -188,7 +188,7 @@ async def on_message(message):
 		e31=result_list3[choice1]
 		e32=result_list3[choice2]
 		e33=result_list3[choice3]
-		result=e11+" | "+e12+" | "+e13+" | "+"\n"+e21+" | "+e22+" | "+e23+" | "+"\n"+e31+" | "+e32+" | "+e33+" | "
+		result=e11+" | "+e12+" | "+e13+"\n"+e21+" | "+e22+" | "+e23+"\n"+e31+" | "+e32+" | "+e33
 		row1=False
 		row2=False
 		row3=False
