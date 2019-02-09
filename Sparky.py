@@ -6,6 +6,7 @@ import time
 import imdb
 import os
 import random
+import requests
 import wikipedia as wk
 
 ia=imdb.IMDb()
@@ -137,6 +138,7 @@ async def on_message(message):
 		embed.add_field(name='wiki!',value='Gives brief summary from Wikipedia of the queried item',inline=False)
 		embed.add_field(name='coin! type heads or tails',value='Make Sparky toss a coin and see if you win',inline=False)
 		embed.add_field(name='slot!',value='Test your luck on Sparky\'s slot machine!',inline=False)
+		embed.add_field(name='joke!',value='Cheeky and nerdy Chuck Norris jokes',inline=False)
 		embed.add_field(name='movie! name of Movie / TV Series /  Video Game',value='Gives the plot summary of the Movie/ TV series / Video Game',inline=False)
 		embed.add_field(name='hello! / yo! / wazz poppin!',value='Sparky says hi to you', inline=False)
 		embed.add_field(name='cookie! mention user',value='Give someone a delicious cookie', inline=False)
@@ -230,6 +232,15 @@ async def on_message(message):
 			res_mes="Hattrick!"
 		embed=discord.Embed(title='Slot Machine',description=result,colour=discord.Colour.teal())
 		embed.add_field(name='Result',value=res_mes, inline=False)
+		await client.send_message(message.channel,embed=embed)
+	
+	#Joke
+	
+	if message.content.upper().startswith('JOKE!'):
+		l=requests.get('http://api.icndb.com/jokes/random?limitTo=[nerdy]')
+		l.text.split(' ')
+		joke = eval(l.text)['value']['joke']
+		embed = discord.Embed(title='Joke',description=joke,colour=discord.Colour.blue())
 		await client.send_message(message.channel,embed=embed)
 
 
