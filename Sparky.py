@@ -149,6 +149,7 @@ async def on_message(message):
 	if message.content.upper().startswith('MODHELP!'):
 		if message.author.server_permissions.kick_members == True and message.author.server_permissions.ban_members ==  True:
 			embed=discord.Embed(title='MOD COMMANDS',description='Can be used only by Admins.',colour=discord.Colour.red())
+			embed.add_field(name='purge! number of messages',value='Purges through a given number of messages.', inline=False)
 			embed.add_field(name='kick! user',value='Kicks the mentioned user from the server.', inline=False)
 			embed.add_field(name='ban! user',value='Bans the mentioned user from the server.', inline=False)
 			await client.send_message(message.channel,embed=embed)
