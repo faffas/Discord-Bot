@@ -242,7 +242,20 @@ async def on_message(message):
 		joke = eval(l.text)['value']['joke']
 		embed = discord.Embed(title='Joke',description=joke,colour=discord.Colour.blue())
 		await client.send_message(message.channel,embed=embed)
+	
+	#Purge Deleting Messages
 
+	if message.content.upper().startswith('PURGE!'):
+		flag=False
+		if message.author.server_permissions.kick_members == True and message.author.server_permissions.ban_members ==  True:
+			flag=True
+		if flag == True:
+			args = int(message.content.split(' ')[1])
+			print(args)
+			await client.purge_from(message.channel,limit=args)
+		else:
+			embed = discord.Embed(title="Warning!",description='You are not allowed to use this command',colour=discord.Colour.red())
+			await client.send_message(message.channel,embed=embed)
 
 #Introduction of a new user. Note that in asyncio the ids are strings.	
 @client.event
