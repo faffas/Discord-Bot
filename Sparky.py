@@ -281,7 +281,7 @@ async def on_message(message):
 					role_member = role
 					break
 			await client.delete_message(message)
-			embed = discord.Embed(title=message.author.nick,description='You have been alloted the {} role!'.format(role_member.mention),colour=role_member.colour)
+			embed = discord.Embed(title=message.author.name,description='You have been alloted the {} role!'.format(role_member.mention),colour=role_member.colour)
 			await client.send_message(message.channel,embed=embed)
 		else:
 			embed = discord.Embed(title='WARNING',description='You are not allowed to add this role.',colour=discord.Colour.red())
@@ -300,7 +300,7 @@ async def on_message(message):
 					role_member = role
 					break
 			await client.delete_message(message)
-			embed = discord.Embed(title=message.author.nick,description='You have removed the {} role!'.format(role_member.mention),colour=role_member.colour)
+			embed = discord.Embed(title=message.author.name,description='You have removed the {} role!'.format(role_member.mention),colour=role_member.colour)
 			await client.send_message(message.channel,embed=embed)
 		else:
 			embed = discord.Embed(title='WARNING',description='You are not allowed to remove this role.',colour=discord.Colour.red())
