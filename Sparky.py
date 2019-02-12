@@ -135,6 +135,8 @@ async def on_message(message):
 		embed.add_field(name='roles!',value='Gives all the roles present in the server.',inline=False)
 		embed.add_field(name='info!',value='Gives server info.',inline=False)
 		embed.add_field(name='psrules!',value='Rules of Practice Sessions',inline=False)
+		embed.add_field(name='modhelp!',value='Moderation Commands',inline=False)
+		embed.add_field(name='lrhelp!',value='Language Based Roles commands',inline=False)
 		embed.add_field(name='wiki!',value='Gives brief summary from Wikipedia of the queried item',inline=False)
 		embed.add_field(name='coin! type heads or tails',value='Make Sparky toss a coin and see if you win',inline=False)
 		embed.add_field(name='slot!',value='Test your luck on Sparky\'s slot machine!',inline=False)
@@ -256,6 +258,52 @@ async def on_message(message):
 			await client.purge_from(message.channel,limit=args)
 		else:
 			embed = discord.Embed(title="Warning!",description='You are not allowed to use this command',colour=discord.Colour.red())
+			await client.send_message(message.channel,embed=embed)
+			
+	#Language Based Roles Help
+
+	if message.content.upper().startswith('LRHELP!'):
+		embed = discord.Embed(title='Language Based Roles Help',description='C/C++/Java/Python',colour=discord.Colour.purple())
+		embed.add_field(name='LANGROLE! name of role from above 4',value='Adds the role',inline=False)
+		embed.add_field(name='LANGROLEREMOVE! removes role from above 4',value='Removes the role',inline=False)
+		await client.send_message(message.channel,embed=embed)
+
+	#Add Language Based Roles
+
+	if message.content.upper().startswith('LANGROLE!'):
+		arg = message.content.split(' ')[1]
+		server=client.get_server(os.getenv('SERVER_ID'))
+		role_member = None
+		if arg.upper() == 'C++' or arg.upper() == 'PYTHON' or arg.upper() == 'C' or arg.upper() == 'JAVA':
+			for role in server.roles:
+				if role.name.upper() == arg.upper():
+					await client.add_roles(message.author,role)
+					role_member = role
+					break
+			await client.delete_message(message)
+			embed = discord.Embed(title=message.author.nick,description='You have been alloted the {} role!'.format(role_member.mention),colour=role_member.colour)
+			await client.send_message(message.channel,embed=embed)
+		else:
+			embed = discord.Embed(title='WARNING',description='You are not allowed to add this role.',colour=discord.Colour.red())
+			await client.send_message(message.channel,embed=embed)
+
+	#Remove Language Based Roles	
+
+	if message.content.upper().startswith('LANGROLEREMOVE!'):
+		arg = message.content.split(' ')[1]
+		server=client.get_server(os.getenv('SERVER_ID'))
+		role_member = None
+		if arg.upper() == 'C++' or arg.upper() == 'PYTHON' or arg.upper() == 'C' or arg.upper() == 'JAVA':
+			for role in server.roles:
+				if role.name.upper() == arg.upper():
+					await client.remove_roles(message.author,role)
+					role_member = role
+					break
+			await client.delete_message(message)
+			embed = discord.Embed(title=message.author.nick,description='You have removed the {} role!'.format(role_member.mention),colour=role_member.colour)
+			await client.send_message(message.channel,embed=embed)
+		else:
+			embed = discord.Embed(title='WARNING',description='You are not allowed to remove this role.',colour=discord.Colour.red())
 			await client.send_message(message.channel,embed=embed)
 
 #Introduction of a new user. Note that in asyncio the ids are strings.	
