@@ -84,7 +84,7 @@ async def on_message(message):
 		icon=server.icon_url
 		embed=discord.Embed(title=server.name,description='SERVER INFO',colour=discord.Colour.teal())
 		embed.set_image(url=icon)
-		embed.add_field(name='Member count:',value=people_count,inline=False)
+		embed.add_field(name='Member count:',value='Humans : {}\nBots : 1'.format(people_count-1),inline=False)
 		embed.add_field(name='Time of Origin:',value=time_of_creation,inline=False)
 		embed.add_field(name='Owner:',value=owner_name,inline=False)
 		await client.send_message(message.channel,embed=embed)
@@ -271,39 +271,49 @@ async def on_message(message):
 	#Add Language Based Roles
 
 	if message.content.upper().startswith('LANGROLE!'):
-		arg = message.content.split(' ')[1]
-		server=client.get_server(os.getenv('SERVER_ID'))
-		role_member = None
-		if arg.upper() == 'C++' or arg.upper() == 'PYTHON' or arg.upper() == 'C' or arg.upper() == 'JAVA':
-			for role in server.roles:
-				if role.name.upper() == arg.upper():
-					await client.add_roles(message.author,role)
-					role_member = role
-					break
-			await client.delete_message(message)
-			embed = discord.Embed(title=message.author.name,description='You have been alloted the {} role!'.format(role_member.mention),colour=role_member.colour)
-			await client.send_message(message.channel,embed=embed)
+		lang_role_channel = client.get_channel(os.getenv('LANG_ROLE_ID'))
+		if message.channel.id == lang_role_channel.id:
+			arg = message.content.split(' ')[1]
+			server=client.get_server(os.getenv('SERVER_ID'))
+			role_member = None
+			if arg.upper() == 'C++' or arg.upper() == 'PYTHON' or arg.upper() == 'C' or arg.upper() == 'JAVA':
+				for role in server.roles:
+					if role.name.upper() == arg.upper():
+						await client.add_roles(message.author,role)
+						role_member = role
+						break
+				await client.delete_message(message)
+				embed = discord.Embed(title=message.author.name,description='You have been alloted the {} role!'.format(role_member.mention),colour=role_member.colour)
+				await client.send_message(message.channel,embed=embed)
+			else:
+				embed = discord.Embed(title='WARNING',description='You are not allowed to add this role.',colour=discord.Colour.red())
+				await client.send_message(message.channel,embed=embed)
 		else:
-			embed = discord.Embed(title='WARNING',description='You are not allowed to add this role.',colour=discord.Colour.red())
+			embed = discord.Embed(title='Warning',description='You can use this command only in {}'.format(lang_role_channel.mention),colour=discord.Colour.red())
 			await client.send_message(message.channel,embed=embed)
 
 	#Remove Language Based Roles	
 
 	if message.content.upper().startswith('LANGROLEREMOVE!'):
-		arg = message.content.split(' ')[1]
-		server=client.get_server(os.getenv('SERVER_ID'))
-		role_member = None
-		if arg.upper() == 'C++' or arg.upper() == 'PYTHON' or arg.upper() == 'C' or arg.upper() == 'JAVA':
-			for role in server.roles:
-				if role.name.upper() == arg.upper():
-					await client.remove_roles(message.author,role)
-					role_member = role
-					break
-			await client.delete_message(message)
-			embed = discord.Embed(title=message.author.name,description='You have removed the {} role!'.format(role_member.mention),colour=role_member.colour)
-			await client.send_message(message.channel,embed=embed)
+		lang_role_channel = client.get_channel(os.getenv('LANG_ROLE_ID'))
+		if message.channel.id == lang_role_channel.id:
+			arg = message.content.split(' ')[1]
+			server=client.get_server(os.getenv('SERVER_ID'))
+			role_member = None
+			if arg.upper() == 'C++' or arg.upper() == 'PYTHON' or arg.upper() == 'C' or arg.upper() == 'JAVA':
+				for role in server.roles:
+					if role.name.upper() == arg.upper():
+						await client.remove_roles(message.author,role)
+						role_member = role
+						break
+				await client.delete_message(message)
+				embed = discord.Embed(title=message.author.name,description='You have removed the {} role!'.format(role_member.mention),colour=role_member.colour)
+				await client.send_message(message.channel,embed=embed)
+			else:
+				embed = discord.Embed(title='WARNING',description='You are not allowed to remove this role.',colour=discord.Colour.red())
+				await client.send_message(message.channel,embed=embed)
 		else:
-			embed = discord.Embed(title='WARNING',description='You are not allowed to remove this role.',colour=discord.Colour.red())
+			embed = discord.Embed(title='Warning',description='You can use this command only in {}'.format(lang_role_channel.mention),colour=discord.Colour.red())
 			await client.send_message(message.channel,embed=embed)
 
 #Introduction of a new user. Note that in asyncio the ids are strings.	
@@ -312,7 +322,8 @@ async def on_member_join(member):
 	userid=member.mention
 	channel = client.get_channel(os.getenv('INTRO_CHANNEL_ID'))
 	channel_rules=client.get_channel(os.getenv('RULES_CHANNEL_ID'))
-	msg='Welcome to Sparks and Glory {}! Please look at {} before proceeding. Have fun!'.format(userid,channel_rules.mention)
+	language_role_channel = client.get_channel(os.getenv('LANG_ROLE_ID'))
+	msg='Welcome to Sparks and Glory {}! Please look at {} before proceeding, and assign yourself a language role in {}! Have fun!'.format(userid,channel_rules.mention,language_role_channel.mention)
 	await client.send_message(channel,msg)
 
 #Bidding goodbye when a member leaves.
