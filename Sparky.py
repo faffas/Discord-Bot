@@ -8,6 +8,7 @@ import os
 import random
 import requests
 import wikipedia as wk
+import safygiphy
 
 ia=imdb.IMDb()
 Client = discord.Client()
@@ -144,6 +145,7 @@ async def on_message(message):
 		embed.add_field(name='movie! name of Movie / TV Series /  Video Game',value='Gives the plot summary of the Movie/ TV series / Video Game',inline=False)
 		embed.add_field(name='hello! / yo! / wazz poppin!',value='Sparky says hi to you', inline=False)
 		embed.add_field(name='cookie! mention user',value='Give someone a delicious cookie', inline=False)
+		embed.add_field(name='sparkygif! gif topic',value='Posts a GIF on the mentioned topic', inline=False)
 		await client.send_message(message.channel,embed=embed)
 		
 	#MOD Commands Help
@@ -315,6 +317,14 @@ async def on_message(message):
 		else:
 			embed = discord.Embed(title='Warning',description='You can use this command only in {}'.format(lang_role_channel.mention),colour=discord.Colour.red())
 			await client.send_message(message.channel,embed=embed)
+	
+	#GIFs
+
+	if message.content.upper().startswith('SPARKYGIF!'):
+		g = safygiphy.Giphy()
+		target = message.content.split(' ')[1]
+		gif = g.random(tag=target)['data']['url']
+		await client.send_message(message.channel,gif)
 
 #Introduction of a new user. Note that in asyncio the ids are strings.	
 @client.event
