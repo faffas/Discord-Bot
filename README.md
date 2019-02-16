@@ -11,4 +11,4 @@ A Discord Bot made using Python and Discordpy.
 * Daily news feature
 * Wikipedia search feature
 * Basic server management commands
-* Random Jokes command
+* Random jokes command
