@@ -4,3 +4,4 @@ A Discord Bot made using Python and Discordpy.
 * IMDBpy
 * Safygiphy
 * Wikipedia
+* NewsAPI
