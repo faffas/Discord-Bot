@@ -137,6 +137,7 @@ async def on_message(message):
 		embed.add_field(name='help!',value='Gives the list of commands.',inline=False)
 		embed.add_field(name='roles!',value='Gives all the roles present in the server.',inline=False)
 		embed.add_field(name='info!',value='Gives server info.',inline=False)
+		embed.add_field(name='profile!',value='Check out your profile card.',inline=False)
 		embed.add_field(name='psrules!',value='Rules of Practice Sessions',inline=False)
 		embed.add_field(name='modhelp!',value='Moderation Commands',inline=False)
 		embed.add_field(name='lrhelp!',value='Language Based Roles commands',inline=False)
