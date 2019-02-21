@@ -86,7 +86,7 @@ async def on_message(message):
 		owner_name=server.owner.name
 		icon=server.icon_url
 		embed=discord.Embed(title=server.name,description='SERVER INFO',colour=discord.Colour.teal())
-		embed.set_image(url=icon)
+		embed.set_thumbnail(url=icon)
 		embed.add_field(name='Member count:',value='Humans : {}\nBots : 1'.format(people_count-1),inline=False)
 		embed.add_field(name='Time of Origin:',value=time_of_creation,inline=False)
 		embed.add_field(name='Owner:',value=owner_name,inline=False)
@@ -327,6 +327,26 @@ async def on_message(message):
 		target = message.content.split(' ')[1]
 		gif = g.random(tag=target)['data']['url']
 		await client.send_message(message.channel,gif)
+		
+	#Profile
+
+	if message.content.upper().startswith('PROFILE!'):
+		server=client.get_server(os.getenv('SERVER_ID'))
+		name = message.author.name
+		pfp = message.author.avatar_url
+		joindate = message.author.joined_at
+		roles = message.author.roles
+		string = []
+		for item in roles:
+			if item.name!='@everyone':
+				string.append(item.mention)
+		string=''.join(string)
+		embed = discord.Embed(title='PROFILE',description=server.name.upper(),colour=discord.Colour.teal())
+		embed.set_thumbnail(url=pfp)
+		embed.add_field(name='Name:',value=name,inline='False')
+		embed.add_field(name='Joined the server on:',value=joindate,inline='False')
+		embed.add_field(name='Roles:',value=string,inline='False')
+		await client.send_message(message.channel,embed=embed)
 
 #Introduction of a new user. Note that in asyncio the ids are strings.	
 @client.event
