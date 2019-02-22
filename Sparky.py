@@ -342,7 +342,7 @@ async def on_message(message):
 			for item in roles:
 				if item.name!='@everyone':
 					string.append(item.mention)
-			string=''.join(string)
+			string=' '.join(string)
 			embed = discord.Embed(title='PROFILE',description=server.name.upper(),colour=discord.Colour.teal())
 			embed.set_thumbnail(url=pfp)
 			embed.add_field(name='Name:',value=name,inline='False')
@@ -360,7 +360,7 @@ async def on_message(message):
 					for item in roles:
 						if item.name!='@everyone':
 							string.append(item.mention)
-					string=''.join(string)
+					string=' '.join(string)
 					embed = discord.Embed(title='PROFILE',description=server.name.upper(),colour=discord.Colour.teal())
 					embed.set_thumbnail(url=pfp)
 					embed.add_field(name='Name:',value=name,inline='False')
