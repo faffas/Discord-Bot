@@ -333,21 +333,41 @@ async def on_message(message):
 
 	if message.content.upper().startswith('PROFILE!'):
 		server=client.get_server(os.getenv('SERVER_ID'))
-		name = message.author.name
-		pfp = message.author.avatar_url
-		joindate = message.author.joined_at
-		roles = message.author.roles
-		string = []
-		for item in roles:
-			if item.name!='@everyone':
-				string.append(item.mention)
-		string=' '.join(string)
-		embed = discord.Embed(title='PROFILE',description=server.name.upper(),colour=discord.Colour.teal())
-		embed.set_thumbnail(url=pfp)
-		embed.add_field(name='Name:',value=name,inline='False')
-		embed.add_field(name='Joined the server on:',value=joindate,inline='False')
-		embed.add_field(name='Roles:',value=string,inline='False')
-		await client.send_message(message.channel,embed=embed)
+		if message.content.upper() == "PROFILE!":
+			name = message.author.name
+			pfp = message.author.avatar_url
+			joindate = message.author.joined_at
+			roles = message.author.roles
+			string = []
+			for item in roles:
+				if item.name!='@everyone':
+					string.append(item.mention)
+			string=''.join(string)
+			embed = discord.Embed(title='PROFILE',description=server.name.upper(),colour=discord.Colour.teal())
+			embed.set_thumbnail(url=pfp)
+			embed.add_field(name='Name:',value=name,inline='False')
+			embed.add_field(name='Joined the server on:',value=joindate,inline='False')
+			embed.add_field(name='Roles:',value=string,inline='False')
+			await client.send_message(message.channel,embed=embed)
+		else:
+			for mem in server.members:
+				if mem.mentioned_in(message) ==  True:
+					name = mem.name
+					pfp = mem.avatar_url
+					joindate = mem.joined_at
+					roles = mem.roles
+					string = []
+					for item in roles:
+						if item.name!='@everyone':
+							string.append(item.mention)
+					string=''.join(string)
+					embed = discord.Embed(title='PROFILE',description=server.name.upper(),colour=discord.Colour.teal())
+					embed.set_thumbnail(url=pfp)
+					embed.add_field(name='Name:',value=name,inline='False')
+					embed.add_field(name='Joined the server on:',value=joindate,inline='False')
+					embed.add_field(name='Roles:',value=string,inline='False')
+					await client.send_message(message.channel,embed=embed)
+					break
 
 #Introduction of a new user. Note that in asyncio the ids are strings.	
 @client.event
