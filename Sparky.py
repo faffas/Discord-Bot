@@ -343,6 +343,7 @@ async def on_message(message):
 			for item in roles:
 				if item.name!='@everyone':
 					string.append(item.mention)
+			string = list(reversed(string))
 			string='  '.join(string)
 			embed = discord.Embed(title='PROFILE',description=server.name.upper(),colour=discord.Colour.teal())
 			embed.set_thumbnail(url=pfp)
@@ -361,6 +362,7 @@ async def on_message(message):
 					for item in roles:
 						if item.name!='@everyone':
 							string.append(item.mention)
+					string = list(reversed(string))
 					string='  '.join(string)
 					embed = discord.Embed(title='PROFILE',description=server.name.upper(),colour=discord.Colour.teal())
 					embed.set_thumbnail(url=pfp)
