@@ -5,6 +5,7 @@ A Discord Bot made using Python and Discordpy.
 * Safygiphy
 * Wikipedia
 * NewsAPI
+* Googletrans
 #### Features - 
 * Simple games
 * GIF search feature
