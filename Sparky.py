@@ -10,11 +10,14 @@ import requests
 import wikipedia as wk
 import safygiphy
 from newsapi import NewsApiClient
+from googletrans import Translator
+from googletrans import LANGUAGES
 
 newsapi = NewsApiClient(api_key=os.getenv('API_KEY'))
 ia=imdb.IMDb()
 Client = discord.Client()
 client = commands.Bot(command_prefix="!")
+translator = Translator()
 
 @client.event
 async def on_ready():
@@ -141,6 +144,7 @@ async def on_message(message):
 		embed.add_field(name='profile mention member!',value='Check out profile card of any member.',inline=False)
 		embed.add_field(name='psrules!',value='Rules of Practice Sessions',inline=False)
 		embed.add_field(name='modhelp!',value='Moderation Commands',inline=False)
+		embed.add_field(name='translatehelp!',value='Translation Commands',inline=False)
 		embed.add_field(name='lrhelp!',value='Language Based Roles commands',inline=False)
 		embed.add_field(name='wiki!',value='Gives brief summary from Wikipedia of the queried item',inline=False)
 		embed.add_field(name='coin! type heads or tails',value='Make Sparky toss a coin and see if you win',inline=False)
@@ -371,6 +375,28 @@ async def on_message(message):
 					embed.add_field(name='Roles:',value=string,inline='False')
 					await client.send_message(message.channel,embed=embed)
 					break
+	#Translate Commands
+
+	if message.content.upper().startswith('TRANSLATE!'):
+		args = ' '.join(message.content.split(' ')[2::])
+		lang = message.content.split(' ')[1]
+		translations = translator.translate(args, dest=lang)
+		embed = discord.Embed(title='SPARKY TRANSLATE',description='Sparky Translates for you!',colour=discord.Colour.teal())
+		embed.add_field(name='Original Message:',value=args,inline='False')
+		embed.add_field(name='Translated Message:',value=translations.text,inline='False')
+		await client.send_message(message.channel,embed=embed)
+
+	if message.content.upper().startswith('TRANSLATELANGS!'):
+		msg = dict(map(reversed, LANGUAGES.items()))
+		embed = discord.Embed(title='SPARKY TRANSLATE CODES',description='LANGUAGE CODES',colour=discord.Colour.teal())
+		for item,key in zip(msg.keys(),msg.values()):
+			embed.add_field(name=item,value=key,inline='False')
+		await client.send_message(message.channel,embed=embed)
+
+	if message.content.upper().startswith('TRANSLATEHELP!'):
+		embed = discord.Embed(title='Sparky Translation Help',description='Commands',colour=discord.Colour.teal())
+		embed.add_field(name='translatelangs!',value='Gives a list of the language codes.',inline='False')
+		embed.add_field(name='translate! languagecode message to be translated',value='Translates the given message into the selected language.',inline='False')
 
 #Introduction of a new user. Note that in asyncio the ids are strings.	
 @client.event
