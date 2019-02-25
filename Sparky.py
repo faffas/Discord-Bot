@@ -388,17 +388,23 @@ async def on_message(message):
 
 	if message.content.upper().startswith('TRANSLATELANGS!'):
 		msg = dict(map(reversed, LANGUAGES.items()))
-		embed = discord.Embed(title='SPARKY TRANSLATE CODES',description='LANGUAGE CODES',colour=discord.Colour.teal())
-		for item,key in zip(msg.keys(),msg.values()):
-			embed.add_field(name=item,value=key,inline='False')
-		await client.send_message(message.channel,embed=embed)
+		args = message.content.split(' ')[1]
+		languages = list(msg.keys())
+		if args.lower() in languages:
+			embed=discord.Embed(title=args.lower(),description='The Code is: {}'.format(msg[args.lower()]),colour = discord.Colour.teal())
+			await client.send_message(message.channel,embed=embed)
+		else:
+			embed=discord.Embed(title='Warning!',description='This language is not available',colour = discord.Colour.teal())
+			await client.send_message(message.channel,embed=embed)
 
 	if message.content.upper().startswith('TRANSLATEHELP!'):
 		embed = discord.Embed(title='Sparky Translation Help',description='Commands',colour=discord.Colour.teal())
-		embed.add_field(name='translatelangs!',value='Gives a list of the language codes.',inline='False')
+		embed.add_field(name='translatelangs! language',value='Gives the code of the language asked',inline='False')
 		embed.add_field(name='translate! languagecode message to be translated',value='Translates the given message into the selected language.',inline='False')
-
+		await client.send_message(message.channel,embed=embed)
+		
 #Introduction of a new user. Note that in asyncio the ids are strings.	
+
 @client.event
 async def on_member_join(member):
 	userid=member.mention
@@ -409,6 +415,7 @@ async def on_member_join(member):
 	await client.send_message(channel,msg)
 
 #Bidding goodbye when a member leaves.
+
 @client.event
 async def on_member_remove(member):
 	userid=member.mention
