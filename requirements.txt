@@ -3,3 +3,4 @@ imdbpy
 wikipedia
 safygiphy
 newsapi-python
+googletrans
