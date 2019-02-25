@@ -13,3 +13,4 @@ A Discord Bot made using Python and Discordpy.
 * Wikipedia search feature
 * Basic server management commands
 * Random jokes command
+* Language Translation command - translate languages from one to the other.
