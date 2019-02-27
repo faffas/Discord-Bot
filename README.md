@@ -15,3 +15,4 @@ A Discord Bot made using Python and Discordpy.
 * Basic server management commands
 * Random jokes command
 * Language Translation command - translate languages from one to the other.
+* Calculator
