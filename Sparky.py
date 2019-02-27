@@ -3,6 +3,7 @@ from discord.ext.commands import Bot
 from discord.ext import commands
 import asyncio
 import time
+import math
 import imdb
 import os
 import random
@@ -146,6 +147,7 @@ async def on_message(message):
 		embed.add_field(name='modhelp!',value='Moderation Commands',inline=False)
 		embed.add_field(name='translatehelp!',value='Translation Commands',inline=False)
 		embed.add_field(name='lrhelp!',value='Language Based Roles commands',inline=False)
+		embed.add_field(name='calchelp!',value='Calculator commands help',inline=False)
 		embed.add_field(name='wiki!',value='Gives brief summary from Wikipedia of the queried item',inline=False)
 		embed.add_field(name='coin! type heads or tails',value='Make Sparky toss a coin and see if you win',inline=False)
 		embed.add_field(name='slot!',value='Test your luck on Sparky\'s slot machine!',inline=False)
@@ -401,6 +403,48 @@ async def on_message(message):
 		embed = discord.Embed(title='Sparky Translation Help',description='Commands',colour=discord.Colour.teal())
 		embed.add_field(name='translatelangs! language',value='Gives the code of the language asked',inline='False')
 		embed.add_field(name='translate! languagecode message to be translated',value='Translates the given message into the selected language.',inline='False')
+		await client.send_message(message.channel,embed=embed)
+	
+	#Calculator
+
+	if message.content.upper().startswith('CALC!'):
+		args = message.content.split(' ')
+		res = 0
+		if args[1].upper() == 'SIN':
+			res = math.sin(math.radians(float(args[2])))
+		elif args[1].upper() == 'COS':
+			res = math.cos(math.radians(float(args[2])))
+		elif args[1].upper() == 'TAN':
+			res = math.tan(math.radians(float(args[2])))
+		elif args[1].upper() == 'EXP':
+			res = math.exp(float(args[2]))
+		elif args[1].upper() == 'POW':
+			res = math.pow(float(args[2]),float(args[3]))
+		elif args[1].upper() == 'SQRT':
+			if float(args[2])>=0:
+				res = math.sqrt(float(args[2]))
+			else:
+				res = "Mathematical Error!"
+		elif args[1].upper() == 'LOG':
+			if float(args[2]) > 0 and float(args[3])>0:
+				res = math.log(float(args[2]),float(args[3]))
+			else:
+				res = "Mathematical Error!"
+		elif args[1].upper() == 'EVAL':
+			s = ''.join(args[2:])
+			res = eval(s)
+		embed = discord.Embed(title='Sparky\'s Calculator',description='Answer',colour=discord.Colour.orange())
+		embed.add_field(name=' '.join(args[1:]),value=res,inline='False')
+		await client.send_message(message.channel,embed=embed)
+
+	if message.content.upper().startswith('CALCHELP!'):
+		embed=discord.Embed(title='Sparky\'s Calculator',description='Quick Maths',colour=discord.Colour.orange())
+		embed.add_field(name='calc! sin/cos/tan angle',value='Sine/Cosine/Tangent of the given angle',inline='False')
+		embed.add_field(name='calc! exp number',value='Exp(number)',inline='False')
+		embed.add_field(name='calc! log value base',value='Log of value to the given base',inline='False')
+		embed.add_field(name='calc! sqrt number',value='Square root of number',inline='False')
+		embed.add_field(name='calc! pow number exponent',value='Value of number raised to exponent',inline='False')
+		embed.add_field(name='calc! eval expression_without_spaces',value='Value of the expression',inline='False')
 		await client.send_message(message.channel,embed=embed)
 		
 #Introduction of a new user. Note that in asyncio the ids are strings.	
