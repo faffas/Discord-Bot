@@ -433,6 +433,8 @@ async def on_message(message):
 		elif args[1].upper() == 'EVAL':
 			s = ''.join(args[2:])
 			res = eval(s)
+		else:
+			res = 'Wrong Command!'
 		embed = discord.Embed(title='Sparky\'s Calculator',description='Answer',colour=discord.Colour.orange())
 		embed.add_field(name=' '.join(args[1:]),value=res,inline='False')
 		await client.send_message(message.channel,embed=embed)
