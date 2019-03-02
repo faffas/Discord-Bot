@@ -8,7 +8,7 @@ A Discord Bot made using Python and Discordpy as a pet project.
 * NewsAPI
 * Googletrans
 
-#### Features - 
+### Features - 
 * Simple games
 * GIF search feature
 * Daily news feature
