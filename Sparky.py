@@ -138,16 +138,30 @@ async def on_message(message):
 	
 	if message.content.upper().startswith('HELP!'):
 		embed=discord.Embed(title='SPARKY TO YOUR RESCUE!',description='COMMANDS [Note that the commands are case insensitive.] -->',colour=discord.Colour.teal())
-		embed.add_field(name='help!',value='Gives the list of commands.',inline=False)
+		embed.add_field(name='help!',value='Gives this list',inline=False)
+		embed.add_field(name='psrules!',value='Rules of Practice Sessions',inline=False)
+		embed.add_field(name='modhelp!',value='Moderation Commands',inline=False)
+		embed.add_field(name='translatehelp!',value='Translation Commands',inline=False)
+		embed.add_field(name='lrhelp!',value='Language Based Roles Commands',inline=False)
+		embed.add_field(name='calchelp!',value='Calculator Commands',inline=False)
+		embed.add_field(name='servhelp!',value='Server Commands',inline=False)
+		embed.add_field(name='funhelp!',value='Fun Commands',inline=False)
+		await client.send_message(message.channel,embed=embed)
+	
+	#Server Related Commands
+
+	if message.content.upper().startswith('SERVHELP!'):
+		embed=discord.Embed(title='Server Commands',description='COMMANDS [Note that the commands are case insensitive.] -->',colour=discord.Colour.gold())
 		embed.add_field(name='roles!',value='Gives all the roles present in the server.',inline=False)
 		embed.add_field(name='info!',value='Gives server info.',inline=False)
 		embed.add_field(name='profile!',value='Check out your profile card.',inline=False)
 		embed.add_field(name='profile mention member!',value='Check out profile card of any member.',inline=False)
-		embed.add_field(name='psrules!',value='Rules of Practice Sessions',inline=False)
-		embed.add_field(name='modhelp!',value='Moderation Commands',inline=False)
-		embed.add_field(name='translatehelp!',value='Translation Commands',inline=False)
-		embed.add_field(name='lrhelp!',value='Language Based Roles commands',inline=False)
-		embed.add_field(name='calchelp!',value='Calculator commands help',inline=False)
+		await client.send_message(message.channel,embed=embed)
+	
+	#Fun Commands
+
+	if message.content.upper().startswith('FUNHELP!'):
+		embed=discord.Embed(title='Fun Commands',description='COMMANDS [Note that the commands are case insensitive.] -->',colour=discord.Colour.magenta())
 		embed.add_field(name='wiki!',value='Gives brief summary from Wikipedia of the queried item',inline=False)
 		embed.add_field(name='coin! type heads or tails',value='Make Sparky toss a coin and see if you win',inline=False)
 		embed.add_field(name='slot!',value='Test your luck on Sparky\'s slot machine!',inline=False)
