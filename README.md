@@ -1,5 +1,6 @@
 # Discord Bot
-A Discord Bot made using Python and Discordpy.
+A Discord Bot made using Python and Discordpy as a pet project.
+
 ### External APIs used -
 * IMDBpy
 * Safygiphy
