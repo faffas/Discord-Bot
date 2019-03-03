@@ -92,7 +92,7 @@ async def on_message(message):
 		embed=discord.Embed(title=server.name,description='SERVER INFO',colour=discord.Colour.teal())
 		embed.set_thumbnail(url=icon)
 		embed.add_field(name='Member count:',value='Humans : {}\nBots : 1'.format(people_count-1),inline=False)
-		embed.add_field(name='Time of Origin:',value=time_of_creation,inline=False)
+		embed.add_field(name='Time of Origin:',value='{}-{}-{}'.format(time_of_creation.day, time_of_creation.month, time_of_creation.year),inline=False)
 		embed.add_field(name='Owner:',value=owner_name,inline=False)
 		await client.send_message(message.channel,embed=embed)
 	
@@ -368,7 +368,7 @@ async def on_message(message):
 			embed = discord.Embed(title='PROFILE',description=server.name.upper(),colour=discord.Colour.teal())
 			embed.set_thumbnail(url=pfp)
 			embed.add_field(name='Name:',value=name,inline='False')
-			embed.add_field(name='Joined the server on:',value=joindate,inline='False')
+			embed.add_field(name='Joined the server on:',value='{}-{}-{}'.format(joindate.day,joindate.month,joindate.year),inline='False')
 			embed.add_field(name='Roles:',value=string,inline='False')
 			await client.send_message(message.channel,embed=embed)
 		else:
@@ -387,7 +387,7 @@ async def on_message(message):
 					embed = discord.Embed(title='PROFILE',description=server.name.upper(),colour=discord.Colour.teal())
 					embed.set_thumbnail(url=pfp)
 					embed.add_field(name='Name:',value=name,inline='False')
-					embed.add_field(name='Joined the server on:',value=joindate,inline='False')
+					embed.add_field(name='Joined the server on:',value='{}-{}-{}'.format(joindate.day,joindate.month,joindate.year),inline='False')
 					embed.add_field(name='Roles:',value=string,inline='False')
 					await client.send_message(message.channel,embed=embed)
 					break
