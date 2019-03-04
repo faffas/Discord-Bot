@@ -170,6 +170,7 @@ async def on_message(message):
 		embed.add_field(name='hello! / yo! / wazz poppin!',value='Sparky says hi to you', inline=False)
 		embed.add_field(name='cookie! mention user',value='Give someone a delicious cookie', inline=False)
 		embed.add_field(name='sparkygif! gif topic',value='Posts a GIF on the mentioned topic', inline=False)
+		embed.add_field(name='poll! item1-without-spaces item2-without-spaces',value='Creates a 2 item poll', inline=False)
 		await client.send_message(message.channel,embed=embed)
 		
 	#MOD Commands Help
@@ -462,6 +463,19 @@ async def on_message(message):
 		embed.add_field(name='calc! pow number exponent',value='Value of number raised to exponent',inline='False')
 		embed.add_field(name='calc! eval expression_without_spaces',value='Value of the expression',inline='False')
 		await client.send_message(message.channel,embed=embed)
+	
+	#Poll
+	
+	if message.content.upper().startswith('POLL!'):
+		args = message.content.split(' ')[1:]
+		item1 = args[0] 
+		item2 = args[1]
+		embed = discord.Embed(title = 'POLL', description='A poll has been created by {}!'.format(message.author.mention),colour=discord.Colour.blue())
+		embed.add_field(name = ':one: {}'.format(item1.upper()), value= 'React with :one: to vote', inline = False)
+		embed.add_field(name = ':two: {}'.format(item2.upper()), value= 'React with :two: to vote', inline = False)
+		msg = await client.send_message(message.channel, embed=embed)
+		await client.add_reaction(msg,'\U00000031\U000020e3')
+		await client.add_reaction(msg,'\U00000032\U000020e3')
 		
 #Introduction of a new user. Note that in asyncio the ids are strings.	
 
