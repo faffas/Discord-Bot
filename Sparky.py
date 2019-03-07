@@ -156,6 +156,7 @@ async def on_message(message):
 		embed.add_field(name='info!',value='Gives server info.',inline=False)
 		embed.add_field(name='profile!',value='Check out your profile card.',inline=False)
 		embed.add_field(name='profile mention member!',value='Check out profile card of any member.',inline=False)
+		embed.add_field(name='ping!',value='Ping Sparky.',inline=False)
 		await client.send_message(message.channel,embed=embed)
 	
 	#Fun Commands
@@ -206,6 +207,13 @@ async def on_message(message):
 		embed.add_field(name='Link for Discord Markup',value='https://support.discordapp.com/hc/en-us/articles/210298617-Markdown-Text-101-Chat-Formatting-Bold-Italic-Underline-',inline='False')
 		embed.add_field(name='Support Staff',value=role_id_list[0]+'\n'+role_id_list[1],inline='False')
 		await client.send_message(message.channel,embed=embed)
+	#PING
+		
+	if message.content.upper().startswith('PING!'):
+		start = time.time() * 1000
+		msg = await client.send_message(message.channel,'PONG! :ping_pong:')
+		end = time.time() * 1000
+		await client.edit_message(message = msg, new_content = ':ping_pong: `{} ms`'.format('{0:.3f}'.format(end - start)))
 			
 	#Coin Flip Game
 	if message.content.upper().startswith('COIN!'):
