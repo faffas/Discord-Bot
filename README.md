@@ -17,3 +17,4 @@ A Discord Bot made using Python and Discordpy as a pet project.
 * Random jokes command
 * Language Translation command - translate languages from one to the other.
 * Calculator
+* Google Search ( Programming Doubts )
