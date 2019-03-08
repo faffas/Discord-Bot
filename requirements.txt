@@ -4,3 +4,4 @@ wikipedia
 safygiphy
 newsapi-python
 googletrans
+gsearch
