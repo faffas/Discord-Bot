@@ -13,6 +13,7 @@ import safygiphy
 from newsapi import NewsApiClient
 from googletrans import Translator
 from googletrans import LANGUAGES
+from gsearch.googlesearch import search
 
 newsapi = NewsApiClient(api_key=os.getenv('API_KEY'))
 ia=imdb.IMDb()
@@ -146,6 +147,7 @@ async def on_message(message):
 		embed.add_field(name='calchelp!',value='Calculator Commands',inline=False)
 		embed.add_field(name='servhelp!',value='Server Commands',inline=False)
 		embed.add_field(name='funhelp!',value='Fun Commands',inline=False)
+		embed.add_field(name='stackov! Query',value='Search for solutions to programming doubts.',inline=False)
 		await client.send_message(message.channel,embed=embed)
 	
 	#Server Related Commands
@@ -484,6 +486,17 @@ async def on_message(message):
 		msg = await client.send_message(message.channel, embed=embed)
 		await client.add_reaction(msg,'\U00000031\U000020e3')
 		await client.add_reaction(msg,'\U00000032\U000020e3')
+		
+	# Stackoverflow Search
+
+	if message.content.upper().startswith('STACKOV!'):
+		args = ' '.join(message.content.split(' ')[1:])
+		query = search('Stackoverflow ' + args)
+		embed = discord.Embed(title='StackOverflow Search',description='Results for the query',colour=discord.Color.orange())
+		print('Stackoverflow ' + args)
+		for item in query:
+			embed.add_field(name='-->',value=item,inline=False)
+		await client.send_message(message.channel,embed=embed)
 		
 #Introduction of a new user. Note that in asyncio the ids are strings.	
 
