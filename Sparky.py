@@ -147,7 +147,15 @@ async def on_message(message):
 		embed.add_field(name='calchelp!',value='Calculator Commands',inline=False)
 		embed.add_field(name='servhelp!',value='Server Commands',inline=False)
 		embed.add_field(name='funhelp!',value='Fun Commands',inline=False)
+		embed.add_field(name='utilhelp!',value='General Utility Commands help',inline=False)
+		await client.send_message(message.channel,embed=embed)
+	
+	# General Utility Commands 
+
+	if message.content.upper().startswith('UTILHELP!'):
+		embed = discord.Embed(title='General Utility Help', description='General Commands that dont belong in any other categories',colour=discord.Color.dark_grey())
 		embed.add_field(name='stackov! Query',value='Search for solutions to programming doubts.',inline=False)
+		embed.add_field(name='embed! text to be embedded',value = 'Embeds text.',inline = False)
 		await client.send_message(message.channel,embed=embed)
 	
 	#Server Related Commands
@@ -496,6 +504,13 @@ async def on_message(message):
 		print('Stackoverflow ' + args)
 		for item in query:
 			embed.add_field(name='-->',value=item,inline=False)
+		await client.send_message(message.channel,embed=embed)
+	
+	# Embed Text
+
+	if message.content.upper().startswith('EMBED!'):
+		args = ' '.join(message.content.split(' ')[1:])
+		embed = discord.Embed(title='Embedded by {}'.format(message.author.name),description=args,colour = discord.Color.dark_orange())
 		await client.send_message(message.channel,embed=embed)
 		
 #Introduction of a new user. Note that in asyncio the ids are strings.	
