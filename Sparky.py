@@ -14,6 +14,7 @@ from newsapi import NewsApiClient
 from googletrans import Translator
 from googletrans import LANGUAGES
 from gsearch.googlesearch import search
+import ast
 
 newsapi = NewsApiClient(api_key=os.getenv('API_KEY'))
 ia=imdb.IMDb()
@@ -182,6 +183,7 @@ async def on_message(message):
 		embed.add_field(name='cookie! mention user',value='Give someone a delicious cookie', inline=False)
 		embed.add_field(name='sparkygif! gif topic',value='Posts a GIF on the mentioned topic', inline=False)
 		embed.add_field(name='poll! item1-without-spaces item2-without-spaces',value='Creates a 2 item poll', inline=False)
+		embed.add_field(name='trivia!',value='Answer Sparky\'s CS trivia questions!', inline=False)
 		await client.send_message(message.channel,embed=embed)
 		
 	#MOD Commands Help
@@ -512,6 +514,37 @@ async def on_message(message):
 		args = ' '.join(message.content.split(' ')[1:])
 		embed = discord.Embed(title='Embedded by {}'.format(message.author.name),description=args,colour = discord.Color.dark_orange())
 		await client.send_message(message.channel,embed=embed)
+	
+	#Trivia
+	
+	if message.content.upper().startswith("TRIVIA!"):
+		req = requests.get("https://opentdb.com/api.php?amount=1&category=18&type=multiple")
+		texts = ast.literal_eval(req.text)
+		question = texts["results"][0]["question"]
+		cor_ans = texts["results"][0]["correct_answer"]
+		incorrect_answers = texts["results"][0]["incorrect_answers"]
+		incorrect_answers.append(cor_ans)
+		answers_lis = incorrect_answers
+		random.shuffle(answers_lis)
+		embed = discord.Embed(title="CS TRIVIA by Sparky",description="Type a number between 1 and 4 to choose your answer.",colour=discord.Color.dark_teal())
+		embed.add_field(name='Question',value = question,inline = False)
+		embed.add_field(name=':one:',value = answers_lis[0],inline = False)
+		embed.add_field(name=':two:',value = answers_lis[1],inline = False)
+		embed.add_field(name=':three:',value = answers_lis[2],inline = False)
+		embed.add_field(name=':four:',value = answers_lis[3],inline = False)
+		await client.send_message(message.channel,embed = embed)
+		msg = await client.wait_for_message(author = message.author,channel = message.channel)
+		options = ["1","2","3","4"]
+		if msg.content in options:
+			if answers_lis[int(msg.content)-1] == cor_ans:
+				embed = discord.Embed(title="Correct Answer!",description="{} has answered the question correctly, the answer is Option-{} : {}!".format(message.author.name,msg.content,cor_ans),colour=discord.Color.green())
+				await client.send_message(message.channel,embed = embed)
+			else:
+				embed = discord.Embed(title="Wrong Answer!",description="{} has answered the question wrong, the correct answer is Option-{} : {}!".format(message.author.name,msg.content,cor_ans),colour=discord.Color.red())
+				await client.send_message(message.channel,embed = embed)
+		else:
+			embed = discord.Embed(title="Warning!",description="Type a number between 1 and 4 only (both inclusive)!",discord=discord.Color.red())
+			await client.send_message(message.channel,embed=embed)
 		
 #Introduction of a new user. Note that in asyncio the ids are strings.	
 
