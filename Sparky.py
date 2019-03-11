@@ -543,7 +543,7 @@ async def on_message(message):
 				embed = discord.Embed(title="Wrong Answer!",description="{} has answered the question wrong, the correct answer is Option-{} : {}!".format(message.author.name,msg.content,cor_ans),colour=discord.Color.red())
 				await client.send_message(message.channel,embed = embed)
 		else:
-			embed = discord.Embed(title="Warning!",description="Type a number between 1 and 4 only (both inclusive)!",discord=discord.Color.red())
+			embed = discord.Embed(title="Warning!",description="Type a number between 1 and 4 only (both inclusive)!",colour=discord.Color.red())
 			await client.send_message(message.channel,embed=embed)
 		
 #Introduction of a new user. Note that in asyncio the ids are strings.	
