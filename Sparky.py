@@ -15,6 +15,10 @@ from googletrans import Translator
 from googletrans import LANGUAGES
 from gsearch.googlesearch import search
 import ast
+import matplotlib.pyplot as plt; plt.rcdefaults()
+import numpy as np
+import matplotlib.pyplot as plt
+import os.path
 
 newsapi = NewsApiClient(api_key=os.getenv('API_KEY'))
 ia=imdb.IMDb()
@@ -77,6 +81,7 @@ async def on_message(message):
 	#Server Info
 	
 	# 1.) Roles information
+	
 	if message.content.upper().startswith('ROLES!'):
 		server=client.get_server(os.getenv('SERVER_ID'))
 		roles_list=server.role_hierarchy
@@ -84,7 +89,9 @@ async def on_message(message):
 			if not role.is_everyone:
 				embed=discord.Embed(title=role.name,description='',colour=role.colour)
 				await client.send_message(message.channel,embed=embed)
+				
 	# 2.) Server information
+	
 	if message.content.upper().startswith('INFO!'):
 		server=client.get_server(os.getenv('SERVER_ID'))
 		people_count=server.member_count
@@ -97,6 +104,41 @@ async def on_message(message):
 		embed.add_field(name='Time of Origin:',value='{}-{}-{}'.format(time_of_creation.day, time_of_creation.month, time_of_creation.year),inline=False)
 		embed.add_field(name='Owner:',value=owner_name,inline=False)
 		await client.send_message(message.channel,embed=embed)
+	
+	# 3.) Bar Plot depicting statuses of people 
+	
+	if message.content.upper().startswith("STATUS!"):
+		server=client.get_server(os.getenv('SERVER_ID'))
+		if os.path.isfile('stats.png') == "True":
+			os.remove("stats.png")
+		mem_list = server.members
+		online = 0
+		offline = 0
+		idle = 0
+		do_not_disturb = 0
+		invisible = 0
+		for mem in mem_list:
+			if str(mem.status) == "online":
+				online += 1
+			elif str(mem.status) == "offline":
+				offline += 1
+			elif str(mem.status) == "idle":
+				idle += 1
+			elif str(mem.status) == "dnd":
+				do_not_disturb += 1
+			else:
+				invisible += 1 
+		stats = ('Online', 'Offline', 'Idle', 'Do Not Disturb')
+		y_pos = np.arange(len(stats))
+		status_mems = [online,offline,idle,do_not_disturb]
+		plt.bar(y_pos, status_mems, align='center', alpha=0.5, color = ['green','grey','yellow','red'])
+		plt.xticks(y_pos, stats)
+		plt.yticks(np.arange(0, len((mem_list)), step=1))
+		plt.ylabel('Members')
+		plt.title('Status Statistics')
+		plt.savefig('stats.png')
+		await client.send_file(message.channel,'stats.png')
+		plt.clf()
 	
 	#Moderation Commands
 
@@ -165,6 +207,7 @@ async def on_message(message):
 		embed=discord.Embed(title='Server Commands',description='COMMANDS [Note that the commands are case insensitive.] -->',colour=discord.Colour.gold())
 		embed.add_field(name='roles!',value='Gives all the roles present in the server.',inline=False)
 		embed.add_field(name='info!',value='Gives server info.',inline=False)
+		embed.add_field(name='status!',value='Gives a plot depicting the statuses of people on the server.',inline=False)
 		embed.add_field(name='profile!',value='Check out your profile card.',inline=False)
 		embed.add_field(name='profile mention member!',value='Check out profile card of any member.',inline=False)
 		embed.add_field(name='ping!',value='Ping Sparky.',inline=False)
